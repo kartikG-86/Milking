@@ -4,6 +4,7 @@ import { useRef } from "react";
 import moment from "moment";
 import "../App.css";
 import AudioPlayer from "./audioplayer";
+import CowAnimation from "../CowAnimation";
 
 const Timer = () => {
   const getCurrentTime = () => {
@@ -51,8 +52,6 @@ const Timer = () => {
   const [running, setRunning] = useState(true);
   const timer = useRef(null);
   const [player, setPlayer] = useState(true);
-
-  const [startTime, setStartTime] = useState(getCurrentTime);
   const date = new Date();
 
   let options = {
@@ -64,8 +63,10 @@ const Timer = () => {
   useEffect(() => {
     if (running) {
       startTimer();
+      setShowAnimation(true);
     } else {
       stopTimer();
+      setShowAnimation(true);
     }
   }, [running]);
 
@@ -90,6 +91,7 @@ const Timer = () => {
 
   const handleStart = () => {
     setRunning(true);
+    setShowAnimation(true);
   };
 
   const handlePause = () => {
@@ -164,6 +166,7 @@ const Timer = () => {
         </div>
       </div>
       <AudioPlayer running={running} setRunning={setRunning} />
+      <CowAnimation running={running} />
     </div>
   );
 };
