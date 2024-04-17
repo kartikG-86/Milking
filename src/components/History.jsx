@@ -5,12 +5,13 @@ const History = () => {
   useEffect(() => {
     let localData = localStorage.getItem("milk_data");
     localData = JSON.parse(localData);
-    setData(localData);
+    console.log(localData);
+    setData(localData == null ? [] : localData);
   }, [data]);
 
   return (
     <div className="History">
-      {data != [] ? (
+      {data.length !== 0 ? (
         <div class="row my-3 mx-3">
           {data.slice().reverse().map((item) => (
             <div class=" col-lg-4 col-xs-12 my-3">
@@ -19,10 +20,12 @@ const History = () => {
                 <div class="card-body">
                   <h5 class="card-title text-start">{item.quantity} Kg of milk</h5>
                   <div class="d-flex justify-content-between mt-3" >
-                    <div class="text"> <b> Start Time: </b> {item.startTime}</div>
-                    <div><b> End Time: </b> {item.endTime}</div>
+                    <div class="text"> <b> Start: </b> {item.startTime}</div>
+                    <div><b> End: </b> {item.endTime}</div>
                   </div>
+
                 </div>
+                  <div class="card-footer text-body-secondary fs-6 text-center"><b>Total : </b>{item.totalTime}</div>
               </div>
             </div>
           ))}

@@ -6,12 +6,53 @@ import "../App.css";
 import AudioPlayer from "./audioplayer";
 
 const Timer = () => {
+  const getCurrentTime = () => {
+    const date = new Date();
+    const hours = date.getHours().toString().padStart(2, "0");
+
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+    return formattedTime;
+  };
+
+  const format = (time) => {
+    let hours = Math.floor((time / 60 / 60) % 24);
+    let minutes = Math.floor((time / 60) % 60);
+    let seconds = Math.floor(time % 60);
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    return hours + ":" + minutes + ":" + seconds;
+  };
+
+  const totalTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    let timeString = "";
+
+    if (hours > 0) {
+      timeString += `${String(hours).padStart(2, "0")} hr` + " ";
+    }
+
+    if (minutes > 0 || hours > 0) {
+      timeString += `${String(minutes).padStart(2, "0")} min` + " ";
+    }
+
+    timeString += `${String(seconds).padStart(2, "0")} sec`;
+
+    return timeString;
+  };
+
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
-  const [pauseTime, setPauseTime] = useState("00:00:00");
-
   const timer = useRef(null);
   const [player, setPlayer] = useState(true);
+
+  const [startTime, setStartTime] = useState(getCurrentTime);
   const date = new Date();
 
   let options = {
@@ -33,6 +74,8 @@ const Timer = () => {
       timer.current = setInterval(() => {
         setTime((prev) => prev + 1);
       }, 1000);
+
+      console.log("Start time", startTime);
     }
   };
 
@@ -41,6 +84,8 @@ const Timer = () => {
       clearInterval(timer.current);
       timer.current = null;
     }
+
+    console.log(startTime);
   };
 
   const handleStart = () => {
@@ -48,20 +93,23 @@ const Timer = () => {
   };
 
   const handlePause = () => {
-    setPauseTime(format(time));
     setRunning(false);
   };
 
   const handleStop = () => {
     console.log(format(time));
-    console.log(pauseTime);
+    const endTime = getCurrentTime();
+    console.log(totalTime(time));
     const milkQuantity = prompt("Enter the quantity of milk");
+
+    console.log("Start Time", startTime, " ", "End Time", endTime);
 
     if (milkQuantity) {
       const data = {
         quantity: milkQuantity,
-        endTime: format(time),
-        startTime: "00:00:00",
+        endTime: endTime,
+        startTime: startTime,
+        totalTime: totalTime(time),
         storeDate: date.toLocaleDateString("en-US", options),
       };
 
@@ -76,7 +124,7 @@ const Timer = () => {
   };
 
   return (
-    <div class="container-fluid py-5">
+    <div class="container-fluid">
       <div className="text-center my-5">
         <h1 className="responsive-font" style={{ fontSize: "bold" }}>
           {format(time)}
@@ -118,16 +166,6 @@ const Timer = () => {
       <AudioPlayer running={running} setRunning={setRunning} />
     </div>
   );
-};
-
-const format = (time) => {
-  let hours = Math.floor((time / 60 / 60) % 24);
-  let minutes = Math.floor((time / 60) % 60);
-  let seconds = Math.floor(time % 60);
-  hours = hours < 10 ? "0" + hours : hours;
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-  return hours + ":" + minutes + ":" + seconds;
 };
 
 export default Timer;
