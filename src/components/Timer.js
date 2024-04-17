@@ -51,7 +51,10 @@ const Timer = () => {
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
   const timer = useRef(null);
+  const [startTime, setStartTime] = useState(getCurrentTime);
   const [player, setPlayer] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(false);
+
   const date = new Date();
 
   let options = {
@@ -75,8 +78,6 @@ const Timer = () => {
       timer.current = setInterval(() => {
         setTime((prev) => prev + 1);
       }, 1000);
-
-      console.log("Start time", startTime);
     }
   };
 
@@ -85,8 +86,6 @@ const Timer = () => {
       clearInterval(timer.current);
       timer.current = null;
     }
-
-    console.log(startTime);
   };
 
   const handleStart = () => {

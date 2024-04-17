@@ -40,7 +40,6 @@ const CowAnimation = ({ running }) => {
           isStopped={!running}
           ref={animationRef}
         />
-       
       </div>
     </div>
   );
