@@ -3,7 +3,6 @@ import "./App.css";
 import MilkingTracker from "./components/Milking-Tracker";
 import Home from "./components/Home";
 import History from "./components/History";
-import CowAnimation from "./CowAnimation";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";

@@ -4,9 +4,10 @@ import { useRef } from "react";
 import moment from "moment";
 import "../App.css";
 import AudioPlayer from "./audioplayer";
-import CowAnimation from "../CowAnimation";
+import { useNavigate } from "react-router-dom";
 
 const Timer = () => {
+  const navigate = useNavigate();
   const getCurrentTime = () => {
     const date = new Date();
     const hours = date.getHours().toString().padStart(2, "0");
@@ -66,10 +67,8 @@ const Timer = () => {
   useEffect(() => {
     if (running) {
       startTimer();
-      setShowAnimation(true);
     } else {
       stopTimer();
-      setShowAnimation(true);
     }
   }, [running]);
 
@@ -90,7 +89,6 @@ const Timer = () => {
 
   const handleStart = () => {
     setRunning(true);
-    setShowAnimation(true);
   };
 
   const handlePause = () => {
@@ -122,11 +120,12 @@ const Timer = () => {
     }
     setRunning(false);
     setTime(0);
+    navigate("/");
   };
 
   return (
-    <div class="container-fluid">
-      <div className="text-center my-5">
+    <div class="container-fluid" data-bs-theme="dark">
+      <div className="text-center py-5">
         <h1 className="responsive-font" style={{ fontSize: "bold" }}>
           {format(time)}
         </h1>
@@ -165,7 +164,12 @@ const Timer = () => {
         </div>
       </div>
       <AudioPlayer running={running} setRunning={setRunning} />
-      <CowAnimation running={running} />
+      <div class="d-flex my-4 justify-content-center">
+        <img
+          style={{ width: "14rem" }}
+          src="https://media.tenor.com/nCBmOrT7gEUAAAAi/running-cow.gif"
+        />
+      </div>
     </div>
   );
 };

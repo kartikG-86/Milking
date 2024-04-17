@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg custom-navbar-bg py-3">
+      <nav className="navbar navbar-expand-lg custom-navbar-bg py-3" data-bs-theme="light">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand fs-4" onClick={closeNav}>
             <b class="mx-2">Milk Tracker</b>
