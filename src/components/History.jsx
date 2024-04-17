@@ -49,7 +49,7 @@ const History = () => {
             ))}
         </div>
       ) : (
-        <p>No History</p>
+        <div class="container-fluid fs-4 my-5 py-5 text-center">No History :( </div>
       )}
     </div>
   );
