@@ -36,3 +36,47 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-navbar-bg {
+  background-color: #D3D3D3; /* Dark grey color */
+}
+
+.responsive-font {
+  font-size: 4.5rem; /* Default font size */
+}
+
+@media screen and (max-width: 576px) {
+  /* Extra small devices (phones) */
+  .responsive-font {
+      font-size: 3rem;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  /* Small devices (tablets) */
+  .responsive-font {
+      font-size: 4rem;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  /* Medium devices (desktops, laptops) */
+  .responsive-font {
+      font-size: 4rem;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  /* Large devices (large desktops) */
+  .responsive-font {
+      font-size: 4rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Extra large devices (extra large desktops) */
+  .responsive-font {
+      font-size: 4.5rem;
+  }
+}
+

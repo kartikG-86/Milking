@@ -1,17 +1,25 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-import moment from 'moment';
+import moment from "moment";
+import "../App.css";
 import AudioPlayer from "./audioplayer";
 
-export default function Timer() {
+const Timer = () => {
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
+  const [pauseTime, setPauseTime] = useState("00:00:00");
+
   const timer = useRef(null);
   const [player, setPlayer] = useState(true);
   const date = new Date();
-  const startTime =
-  const endTime = 
+
+  let options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   useEffect(() => {
     if (running) {
       startTimer();
@@ -40,33 +48,77 @@ export default function Timer() {
   };
 
   const handlePause = () => {
+    setPauseTime(format(time));
     setRunning(false);
   };
 
   const handleStop = () => {
-     setRunning(false);
+    console.log(format(time));
+    console.log(pauseTime);
+    const milkQuantity = prompt("Enter the quantity of milk");
+
+    if (milkQuantity) {
+      const data = {
+        quantity: milkQuantity,
+        endTime: format(time),
+        startTime: "00:00:00",
+        storeDate: date.toLocaleDateString("en-US", options),
+      };
+
+      let localData = localStorage.getItem("milk_data");
+      localData = localData ? JSON.parse(localData) : [];
+      localData.push(data);
+      localData = JSON.stringify(localData);
+      localStorage.setItem("milk_data", localData);
+    }
+    setRunning(false);
     setTime(0);
-    
-    
-     const milkQuantity = prompt("Enter the quantity of milk");
-     console.log(milkQuantity);
   };
 
   return (
-    <div className="watch">
-      <p className="timer">{format(time)}</p>
-      <div className="actions">
-        <button onClick={running ? handlePause : handleStart}>
-          {running ? "Pause" : "Resume"}
-        </button>
-        <button className="stopbtn" type="button" onClick={handleStop}>
-          Stop
-        </button>
-        <AudioPlayer running={running} setRunning={setRunning} />
+    <div class="container-fluid py-5">
+      <div className="text-center my-5">
+        <h1 className="responsive-font" style={{ fontSize: "bold" }}>
+          {format(time)}
+        </h1>
       </div>
+      <div className="row">
+        <div class="col-xs-12 col-md-6">
+          <div class="d-flex justify-content-center justify-content-md-end">
+            <button
+              class="btn btn-success btn-dark mx-5 my-3 fs-5"
+              style={{
+                backgroundColor: running ? "	#CC5500" : "#097969",
+                borderRadius: "2rem",
+                width: "8rem",
+              }}
+              onClick={running ? handlePause : handleStart}
+            >
+              {running ? "Pause" : "Resume"}
+            </button>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="d-flex justify-content-center justify-content-md-start">
+            <button
+              type="button"
+              class="btn btn-success btn-dark mx-5 my-3 fs-5 col-6"
+              style={{
+                backgroundColor: "#811331",
+                borderRadius: "2rem",
+                width: "8rem",
+              }}
+              onClick={handleStop}
+            >
+              Stop
+            </button>
+          </div>
+        </div>
+      </div>
+      <AudioPlayer running={running} setRunning={setRunning} />
     </div>
   );
-}
+};
 
 const format = (time) => {
   let hours = Math.floor((time / 60 / 60) % 24);
@@ -77,3 +129,5 @@ const format = (time) => {
   seconds = seconds < 10 ? "0" + seconds : seconds;
   return hours + ":" + minutes + ":" + seconds;
 };
+
+export default Timer;
